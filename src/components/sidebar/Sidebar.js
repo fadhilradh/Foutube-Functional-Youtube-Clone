@@ -1,7 +1,7 @@
 import "./_sidebar.scss";
 
 function Sidebar() {
-  return <div>SIdebar</div>;
+  return <div className="border border-danger">SIdebar</div>;
 }
 
 export default Sidebar;
