@@ -15,7 +15,7 @@ function Categories() {
         <span
           onClick={() => handleClick(keyword)}
           key={index}
-          className={activeKeyword === keyword && "active"}
+          className={activeKeyword === keyword ? "active" : ""}
         >
           {keyword}
         </span>
