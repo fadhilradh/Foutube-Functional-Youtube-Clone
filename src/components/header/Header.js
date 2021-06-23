@@ -4,10 +4,14 @@ import { FaBars } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdNotifications, MdApps } from "react-icons/md";
 
-function Header() {
+function Header({ handleToggleSidebar }) {
   return (
     <div className="border border-dark header">
-      <FaBars className="header__menu" size={26} />
+      <FaBars
+        className="header__menu"
+        size={26}
+        onClick={() => handleToggleSidebar()}
+      />
 
       <img src="/blue-logo.jpeg" alt="" className="header__logo" />
 
@@ -19,8 +23,8 @@ function Header() {
       </form>
 
       <div className="header__icons">
-        <MdNotifications size={28} />;
-        <MdApps size={28} />;
+        <MdNotifications size={28} />
+        <MdApps size={28} />
         <img src="/pp.jpeg" alt="avatar" />
       </div>
     </div>
