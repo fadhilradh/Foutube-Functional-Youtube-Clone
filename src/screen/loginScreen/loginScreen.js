@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/actions/auth.action";
+import { loginWithGoogle } from "../../redux/actions/auth.action";
 import "./_loginScreen.scss";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const handleLogin = () => {
-    dispatch(login());
+    dispatch(loginWithGoogle());
   };
   return (
     <div className="login">

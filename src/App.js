@@ -33,6 +33,7 @@ const Layout = ({ children }) => {
 function App() {
   return (
     <Router>
+      {/* switch, to make more efficient, router does not check further after meeting the route */}
       <Switch>
         <Route path="/" exact>
           <Layout>

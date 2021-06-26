@@ -1,11 +1,13 @@
+//reducer is just a function
+
 import {
   LOAD_PROFILE,
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-} from "../actionType";
+  LOG_OUT,
+} from "../actionTypes";
 
-// reducer is just a function
 const initialState = {
   accessToken: null,
   user: null,
