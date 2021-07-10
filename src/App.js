@@ -5,58 +5,65 @@ import HomeScreen from "./screen/HomeScreen";
 import LoginScreen from "./screen/loginScreen/loginScreen";
 import "./_app.scss";
 import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Layout = ({ children }) => {
-  const [sidebar, toggleSidebar] = useState(false);
+    const [sidebar, toggleSidebar] = useState(false);
 
-  const handleToggleSidebar = () => toggleSidebar((value) => !value);
+    const handleToggleSidebar = () => toggleSidebar((value) => !value);
 
-  return (
-    <>
-      <Header handleToggleSidebar={handleToggleSidebar} />
-      <div className="app__container ">
-        <Sidebar sidebar={sidebar} handleToggleSidebar={handleToggleSidebar} />
-        <Container fluid className="app__main ">
-          {children}
-        </Container>
-      </div>
-    </>
-  );
+    return (
+        <>
+            <Header handleToggleSidebar={handleToggleSidebar} />
+            <div className="app__container ">
+                <Sidebar
+                    sidebar={sidebar}
+                    handleToggleSidebar={handleToggleSidebar}
+                />
+                <Container fluid className="app__main ">
+                    {children}
+                </Container>
+            </div>
+        </>
+    );
 };
 
 function App() {
-  return (
-    <Router>
-      {/* switch, to make more efficient, router does not check further after meeting the route */}
-      <Switch>
-        <Route path="/" exact>
-          <Layout>
-            <HomeScreen />
-          </Layout>
-        </Route>
+    const { accessToken, loading } = useSelector((state) => state.auth);
 
-        <Route path="/auth">
-          <LoginScreen />
-        </Route>
+    const history = useHistory();
 
-        <Route path="/search">
-          <Layout>
-            <h1>Search Results</h1>
-          </Layout>
-        </Route>
+    useEffect(() => {
+        if (!accessToken && !loading) {
+            history.push("/auth");
+        }
+    }, [accessToken, loading, history]);
 
-        <Route>
-          <Redirect to="/" />
-        </Route>
-      </Switch>
-    </Router>
-  );
+    return (
+        <Switch>
+            <Route path="/" exact>
+                <Layout>
+                    <HomeScreen />
+                </Layout>
+            </Route>
+
+            <Route path="/auth">
+                <LoginScreen />
+            </Route>
+
+            <Route path="/search">
+                <Layout>
+                    <h1>Search Results</h1>
+                </Layout>
+            </Route>
+
+            <Route>
+                <Redirect to="/" />
+            </Route>
+        </Switch>
+    );
 }
 
 export default App;

@@ -1,46 +1,54 @@
 import "./_sidebar.scss";
 import {
-  MdSubscriptions,
-  MdExitToApp,
-  MdThumbUp,
-  MdHistory,
-  MdHome,
+    MdSubscriptions,
+    MdExitToApp,
+    MdThumbUp,
+    MdHistory,
+    MdHome,
 } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../redux/actions/auth.action";
 
 function Sidebar({ sidebar, handleToggleSidebar }) {
-  return (
-    <nav
-      className={`sidebar ${sidebar && "open"}`}
-      onClick={() => handleToggleSidebar(false)}
-    >
-      <li>
-        <MdHome size={23} />
-        <span>Home</span>
-      </li>
+    const dispatch = useDispatch();
 
-      <li>
-        <MdSubscriptions size={23} />
-        <span>Subscriptions</span>
-      </li>
+    const handleLogout = () => {
+        dispatch(logOut());
+    };
 
-      <li>
-        <MdThumbUp size={23} />
-        <span>Liked Videos</span>
-      </li>
+    return (
+        <nav
+            className={`sidebar ${sidebar && "open"}`}
+            onClick={() => handleToggleSidebar(false)}
+        >
+            <li>
+                <MdHome size={23} />
+                <span>Home</span>
+            </li>
 
-      <li>
-        <MdHistory size={23} />
-        <span>History</span>
-      </li>
+            <li>
+                <MdSubscriptions size={23} />
+                <span>Subscriptions</span>
+            </li>
 
-      <hr />
+            <li>
+                <MdThumbUp size={23} />
+                <span>Liked Videos</span>
+            </li>
 
-      <li>
-        <MdExitToApp size={23} />
-        <span>Log Out</span>
-      </li>
-    </nav>
-  );
+            <li>
+                <MdHistory size={23} />
+                <span>History</span>
+            </li>
+
+            <hr />
+
+            <li onClick={handleLogout}>
+                <MdExitToApp size={23} />
+                <span>Log Out</span>
+            </li>
+        </nav>
+    );
 }
 
 export default Sidebar;

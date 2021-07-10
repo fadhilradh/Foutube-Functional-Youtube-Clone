@@ -5,6 +5,7 @@ import {
     LOGIN_FAILED,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
+    LOG_OUT,
 } from "../actionTypes";
 
 export const loginWithGoogle = () => async (dispatch) => {
@@ -18,14 +19,15 @@ export const loginWithGoogle = () => async (dispatch) => {
 
         const response = await auth.signInWithPopup(googleProvider);
 
-        console.log(response);
-
         const accessToken = response.credential.accessToken;
 
         const profile = {
             name: response.additionalUserInfo.profile.name,
             photo: response.additionalUserInfo.profile?.picture,
         };
+
+        sessionStorage.setItem("ytc-access-token", accessToken);
+        sessionStorage.setItem("ytc-user", JSON.stringify(profile));
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -43,4 +45,15 @@ export const loginWithGoogle = () => async (dispatch) => {
             payload: error.message,
         });
     }
+};
+
+export const logOut = () => async (dispatch) => {
+    auth.signOut();
+
+    dispatch({
+        type: LOG_OUT,
+    });
+
+    sessionStorage.removeItem("ytc-access-token");
+    sessionStorage.removeItem("ytc-user");
 };
