@@ -16,11 +16,12 @@ export const loginWithGoogle = () => async (dispatch) => {
         });
 
         const googleProvider = new firebase.auth.GoogleAuthProvider();
+        googleProvider.addScope(
+            "https://www.googleapis.com/auth/youtube.force-ssl"
+        );
 
         const response = await auth.signInWithPopup(googleProvider);
-
         const accessToken = response.credential.accessToken;
-
         const profile = {
             name: response.additionalUserInfo.profile.name,
             photo: response.additionalUserInfo.profile?.picture,
