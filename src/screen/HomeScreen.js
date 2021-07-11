@@ -13,6 +13,8 @@ const HomeScreen = () => {
     useEffect(() => {
         dispatch(getPopularVideos());
     }, [dispatch]);
+    // console.log(videos);
+
     return (
         <Container>
             <Categories />

@@ -24,6 +24,8 @@ function Video({ video }) {
     const seconds = moment.duration(duration).asSeconds();
     const formattedDuration = moment.utc(seconds * 1000).format("mm:ss");
 
+    const videoId = id?.videoId || id;
+
     useEffect(() => {
         const getVideoDetails = async () => {
             const {
@@ -31,14 +33,14 @@ function Video({ video }) {
             } = await request("/videos", {
                 params: {
                     part: "contentDetails, statistics",
-                    id: id,
+                    id: videoId,
                 },
             });
             setDuration(items[0].contentDetails.duration);
             setViews(items[0].statistics.viewCount);
         };
         getVideoDetails();
-    }, [id]);
+    }, [videoId]);
 
     useEffect(() => {
         const getChannelIcon = async () => {
@@ -51,7 +53,6 @@ function Video({ video }) {
                 },
             });
             setChannelIcon(items[0].snippet.thumbnails.default);
-            console.log(items);
         };
         getChannelIcon();
     }, [channelId]);

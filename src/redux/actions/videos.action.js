@@ -20,13 +20,13 @@ export const getPopularVideos = () => async (dispatch) => {
                 pageToken: "",
             },
         });
-        console.log(data);
 
         dispatch({
             type: POPULAR_VIDEOS_SUCCESS,
             payload: {
                 videos: data.items,
                 nextPageToken: data.nextPageToken,
+                category: "All",
             },
         });
     } catch (error) {
@@ -38,7 +38,37 @@ export const getPopularVideos = () => async (dispatch) => {
     }
 };
 
-// GET https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=[YOUR_API_KEY] HTTP/1.1
+export const getVideosByCategory = (keyword) => async (dispatch, getState) => {
+    try {
+        console.log(keyword);
+        dispatch({
+            type: POPULAR_VIDEOS_REQUEST,
+        });
 
-// Authorization: Bearer[YOUR_ACCESS_TOKEN];
-// Accept: application / json;
+        const { data } = await request("/search", {
+            params: {
+                part: "snippet",
+                maxResults: 20,
+                pageToken: getState().popularVideos.nextPageToken,
+                q: keyword,
+                type: "video",
+            },
+        });
+        // console.log(data);
+
+        dispatch({
+            type: POPULAR_VIDEOS_SUCCESS,
+            payload: {
+                videos: data.items,
+                nextPageToken: data.nextPageToken,
+                category: keyword,
+            },
+        });
+    } catch (error) {
+        console.log(error.message);
+        dispatch({
+            type: POPULAR_VIDEOS_FAILED,
+            payload: error.message,
+        });
+    }
+};
