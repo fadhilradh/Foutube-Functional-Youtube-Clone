@@ -24,7 +24,10 @@ export const popularVideosReducer = (state = initialState, action) => {
         case POPULAR_VIDEOS_SUCCESS:
             return {
                 ...state,
-                videos: payload.videos,
+                videos:
+                    state.activeCategory === payload.category
+                        ? [...state.videos, ...payload.videos]
+                        : payload.videos,
                 loading: false,
                 nextPageToken: payload.nextPageToken,
                 category: payload.category,

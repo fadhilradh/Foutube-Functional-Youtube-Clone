@@ -1,4 +1,9 @@
 .app__container {
-  display: flex;
-  height: 90vh;
+    display: flex;
+    margin-top: 10vh;
+    overflow-y: hidden;
+}
+
+.app__main {
+    overflow-y: hidden;
 }

@@ -5,7 +5,7 @@ import {
     POPULAR_VIDEOS_SUCCESS,
 } from "../actionTypes";
 
-export const getPopularVideos = () => async (dispatch) => {
+export const getPopularVideos = () => async (dispatch, getState) => {
     try {
         dispatch({
             type: POPULAR_VIDEOS_REQUEST,
@@ -17,7 +17,7 @@ export const getPopularVideos = () => async (dispatch) => {
                 chart: "mostPopular",
                 regionCode: "ID",
                 maxResults: 20,
-                pageToken: "",
+                pageToken: getState().popularVideos.nextPageToken,
             },
         });
 
@@ -54,7 +54,6 @@ export const getVideosByCategory = (keyword) => async (dispatch, getState) => {
                 type: "video",
             },
         });
-        // console.log(data);
 
         dispatch({
             type: POPULAR_VIDEOS_SUCCESS,
